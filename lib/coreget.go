@@ -70,7 +70,7 @@ func (c *Conn) GetSource(index string, _type string, id string, args map[string]
 
 // ExistsBool allows caller to check for the existence of a document using HEAD
 // TODO(shutej): This looks redundant with the Exists function in
-// baserequest.go, check with mattbaird@.
+// baserequest.go, check with wadjevaishali@.
 func (c *Conn) ExistsBool(index string, _type string, id string, args map[string]interface{}) (bool, error) {
 
 	var url string

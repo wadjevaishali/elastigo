@@ -51,7 +51,7 @@ func (c *Conn) Search(index string, _type string, args map[string]interface{}, q
 			return retval, jsonErr
 		}
 	}
-	retval.RawJSON = body
+	//retval.RawJSON = body
 	return retval, err
 }
 

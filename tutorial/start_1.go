@@ -12,11 +12,13 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
-	elastigo "github.com/mattbaird/elastigo/lib"
 	"log"
 	"os"
+
+	elastigo "github.com/wadjevaishali/elastigo/lib"
 )
 
 var (
@@ -33,27 +35,29 @@ func main() {
 	c.Domain = *host
 
 	// Index a document
-	_, err := c.Index("testindex", "user", "docid_1", nil, `{"name":"bob"}`)
+	_, err := c.Index("testindex", "user", "docid_1", nil, `{"name":"bob martin"}`)
 	exitIfErr(err)
 
 	// Index a doc using a map of values
-	_, err = c.Index("testindex", "user", "docid_2", nil, map[string]string{"name": "venkatesh"})
+	_, err = c.Index("testindex", "user", "docid_2", nil, map[string]string{"name": "bob mosbey"})
 	exitIfErr(err)
 
 	// Index a doc using Structs
-	_, err = c.Index("testindex", "user", "docid_3", nil, MyUser{"wanda", 22})
+	_, err = c.Index("testindex", "user", "docid_3", nil, MyUser{"vaishali", 22})
 	exitIfErr(err)
 
 	// Search Using Raw json String
 	searchJson := `{
 	    "query" : {
-	        "term" : { "Name" : "wanda" }
+				"match": {
+					 "name" : "bob"
+				}
 	    }
 	}`
 	out, err := c.Search("testindex", "user", nil, searchJson)
-	if len(out.Hits.Hits) == 1 {
-		fmt.Println("%v", out.Hits.Hits[0].Source)
-	}
+
+	result, _ := json.MarshalIndent(out, "", "  ")
+	fmt.Printf("%s\n", result)
 	exitIfErr(err)
 
 }
